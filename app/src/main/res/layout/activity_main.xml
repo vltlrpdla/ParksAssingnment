@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#44ffff00"
+    android:orientation="vertical"
+    android:padding="4dp"
+    android:weightSum="1">
+    <TextView
+        android:id="@+id/txtMonster1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Cookie Monster 1"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/tvM1EatedNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total cookie eaten so far : 0/100"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <ProgressBar
+        android:id="@+id/progressM1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"	/>
+
+    <TextView
+        android:id="@+id/txtMonster2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:text="Cookie Monster 2"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/tvM2EatedNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total cookie eaten so far : 0/100"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <ProgressBar
+        android:id="@+id/progressM2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"	/>
+
+    <TextView
+        android:id="@+id/txtGrandma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:text="Grandma's oven"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+    <TextView
+        android:id="@+id/tvGrannybakedNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total baked cookie : 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ProgressBar
+            android:id="@+id/progressGranny"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="289dp"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/progressCircle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"	/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvPassingTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simulation clock: 0/120 sec"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+    <ProgressBar
+        android:id="@+id/progressClock"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="27dp" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp">
+
+        <Button
+            android:text="Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bStopSimulate"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:text="Start over"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bStartSimulate"
+            android:paddingRight="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/bStopSimulate"
+            android:layout_toStartOf="@+id/bStopSimulate" />
+    </RelativeLayout>
+
+
+</LinearLayout>
