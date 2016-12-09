@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -42,6 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tvM1EatedNum, tvM2EatedNum, tvPassingTime,tvGrannybakedNum;
     Button  bStartSimulate, bStopSimulate;
     ProgressBar progressCircle,progressClock,progressGranny,progressM1,progressM2;
+
+
+    Monster monster1,monster2;
+    GrandMother grandMother;
+    SimulateClock simulateClock;
 
     private volatile boolean running;
 
@@ -124,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bStartSimulate.setOnClickListener(this);
         bStopSimulate.setOnClickListener(this);
+
+        cookieJar = new CookieJar();
     }
 
     public void onClick(View v){
@@ -191,6 +200,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public String getThreadName() {
             return threadName;
         }
+
+        public void setEatedCookie(int eatedCookie) {
+            this.eatedCookie = eatedCookie;
+        }
     }
 
 
@@ -239,6 +252,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public int getTotalCookie() {
             return totalCookie;
         }
+
+        public void setLeftCookie(int leftCookie) {
+            this.leftCookie = leftCookie;
+        }
+
+        public void setTotalCookie(int totalCookie) {
+            this.totalCookie = totalCookie;
+        }
     }
 
 
@@ -270,27 +291,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.running = running;
     }
 
+    public Boolean isRunning() { return running; }
 
     public void startSimulate(){
-        setRunning(true);
-        progressCircle.setVisibility(View.VISIBLE);
-        passingTime = 0;
-        mHandler.sendEmptyMessage(MSG_INIT_DATA);
-        cookieJar = new CookieJar();
 
-        Log.d(LOG_TAG, "Log isTerminated : " + taskList.isTerminated()+ " Log isShutdown : " + taskList.isShutdown());
+        if( !isRunning() ) {
+            init();
+        }else{
+            mHandler.sendEmptyMessage(MSG_INIT_DATA);
+            monster1.setEatedCookie(0);
+            monster2.setEatedCookie(0);
+            cookieJar.setTotalCookie(0);
+            cookieJar.setLeftCookie(0);
+            passingTime = 0;
+        }
+        Log.d(LOG_TAG, "Log isTerminated2 : " + taskList.isTerminated()+ " Log isShutdown : " + taskList.isShutdown());
 
-        taskList.execute(new SimulateClock());
-        taskList.execute(new Monster("monster1",cookieJar));
-        taskList.execute(new Monster("monster2",cookieJar));
-        taskList.execute(new GrandMother("granny", cookieJar));
-        Log.d(LOG_TAG,"스타트 끝");
     }
 
     //남아있는 스레드를 종료 시켜 줘야 한다.
 
     public void stopSimulate(){
         setRunning(false);
+        Thread.interrupted();
+
+        if ( monster1.getEatedCookie() > monster2.getEatedCookie()){
+            Toast.makeText(getApplicationContext(),"Monster1 win",Toast.LENGTH_LONG).show();
+        }else if( monster1.getEatedCookie() ==  monster2.getEatedCookie()){
+            Toast.makeText(getApplicationContext(),"draw",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext(),"Monster2 win",Toast.LENGTH_LONG).show();
+        }
         // 스레드를 종료시키는 것
     }
 
@@ -312,6 +343,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressGranny.setProgress(num);
         progressM1.setProgress(num);
         progressM2.setProgress(num);
+    }
+
+    public void init(){
+        setRunning(true);
+        progressCircle.setVisibility(View.VISIBLE);
+        passingTime = 0;
+        mHandler.sendEmptyMessage(MSG_INIT_DATA);
+        cookieJar.setLeftCookie(0);
+        cookieJar.setTotalCookie(0);
+
+        Log.d(LOG_TAG, "Log isTerminated : " + taskList.isTerminated() + " Log isShutdown : " + taskList.isShutdown());
+
+        simulateClock = new SimulateClock();
+        monster1 = new Monster("monster1", cookieJar);
+        monster2 = new Monster("monster2", cookieJar);
+        grandMother = new GrandMother("granny", cookieJar);
+
+        monster1.setEatedCookie(0);
+        monster2.setEatedCookie(0);
+
+        taskList.execute(simulateClock);
+        taskList.execute(monster1);
+        taskList.execute(monster2);
+        taskList.execute(grandMother);
     }
 
 }
